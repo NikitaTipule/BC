@@ -8,7 +8,7 @@ typedef node* list;
 
 typedef struct ostack {
     int size; 
-    int top;
+    int top;   
     char *a;
 }ostack;
 
@@ -42,14 +42,13 @@ void insert_dig(list *n, int d);
 
 //functions.c 
 int is_assignment();
-int is_comparison();
+int is_comparison(char *p, char c);
 int precedence(char c);
 node* add(list n2, list n1);
 void display(pstack *ps);
 node* sub(list n2, list n1);
 node* multi(list n2, list n1);
 node* division(list n2 , list n1);
-node* expo(node *n2, node *n1);
 void insert_beg(list *p, int d);
 void print(node *p);
 node* larger(list n1, list n2);
@@ -57,3 +56,15 @@ node* multii(list n2, list n1);
 void distroy(list *n1);
 int is_same(list n1, list n2);
 void display_stack(pstack *p);
+node* mod(list n1, list n2);
+
+//trigonometric
+
+int is_trigo(char *p);
+double sin_t(pstack *p);
+double cos_t(pstack *p);
+double tan_t(pstack *p);
+void distroy_stack(pstack *p);
+void distory_list(list *n);
+void distroy_stack_o(ostack *p);
+node* power(list n2, list n1);

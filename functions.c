@@ -1,11 +1,15 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<ctype.h>
+#include<math.h>
 #include "bc.h"
+
+
 
 int precedence(char c){
     if(c == '+')
-        return 10;
+        return 10;  
     else if(c == '-')
         return 10;
     else if(c == '*')
@@ -18,6 +22,8 @@ int precedence(char c){
         return 30;
     else if(c == '(')
         return 5;
+    else if(c == '#')
+        return 0;
     return 0;
 }
 
@@ -64,6 +70,7 @@ node* add(list n2, list n1) {
     if(c > 0) {
         insert_beg(&n, c);
     }
+    //distory_list(&p1);distory_list(&p2);distory_list(&a1);distory_list(&a2);
     return n;
 }
 void insert_beg(list *p, int d) {
@@ -262,6 +269,7 @@ node* sub(list n2, list n1) {
         //         return temp1;
         //     q = temp1;
         //     temp1 = temp1 -> next;
+        //     q -> next = NULL;
         //     temp1 -> prev = NULL;
         //     free(q);
         // }
@@ -465,7 +473,7 @@ node* division(list n2 , list n1) {
         a1 = a1 -> next;     
         a1 ->prev = NULL;
     }
-
+    //printf("nikita");
     while(a2 -> dig ==0) {
         if(a2 -> next == NULL)
             break;
@@ -497,15 +505,16 @@ node* division(list n2 , list n1) {
         insert_dig(&temp, a1 ->dig);
         a1 = a1 -> next;
     }
+    //print(a1);
     while(is_same(temp,larger(temp,a2))) {
         //print(larger(temp,a2));printf("\t");
         temp = sub(a2, temp);
         count++;
-        print(temp);
-        printf("\t");
-        printf("%d\n", count);
+    //    print(temp);
+    //     printf("\t");
+    //     printf("%d\n", count); 
     }
-    print(larger(temp,a2));printf("\t");
+    //print(larger(temp,a2));printf("\t");
     if(is_same(temp,a2)) {
         count++;
     }
@@ -580,12 +589,470 @@ node* division(list n2 , list n1) {
 
 void display_stack(pstack *p) {
     int i = p->top;
-    while(p ->top !=-1) {
-        print(p->arr[p->top]);
+    pstack *s = p;
+    while(s ->top !=-1) {
+        print(s->arr[s->top]);
         printf("\t");
-        p ->top--;
+        s ->top--;
     }
     printf("\n");
-    p->top = i;
+    s->top = i;
     return;
+}
+
+
+// int is_comparison(char *p) {
+//     int i = 0;
+//     while(p[i] != '\0') {
+//         do{ 
+//             n = p[i] - '0';
+//             insert_dig(&n1, n);
+//             i++;
+//         }while(isdigit(p[i]));
+//         push_op(&ps, n1);
+//         i++;
+//         if(p[i] == '<' || (p[i] == '>') || (p[i] == '=' && p[i+1] == '=') || (p[i] == '!' && p[i+1] == '=' )) {
+//             c = str[i];
+//             i++;
+//             i++;
+//         }
+//         if(isdigit(str[i])) {
+//             do{ 
+//                 n = str[i] - '0';
+//                 insert_dig(&n1, n);
+//                 i++;
+//             }while(isdigit(str[i]));
+//             push_op(&ps, n1);  
+//         }
+//         if(str[i] == '\0'){
+//             is_comparison(&ps, c);
+//         }
+
+//     }
+// }
+
+
+// void is_comparison(pstack *p, char c) {
+//     list a1, a2, n3, q;
+//     a2 = pop_op(p);
+//     a1 = pop_op(p);
+
+//     while(a1 -> dig ==0) {
+//         if(a1 -> next == NULL)
+//             break;
+//         q = a1;
+//         a1 = a1 -> next;     
+//         a1 ->prev = NULL;
+//     }
+
+//     while(a2 -> dig ==0) {
+//         if(a2 -> next == NULL)
+//             break;
+//         q = a2;
+//         a2 = a2 -> next;
+//         a2 ->prev = NULL;
+//     }
+//     if(c == '=') {
+//         if(is_same(a1,a2)) {
+//             printf("True");
+//         }
+//         else {
+//             printf("False");
+//         }
+//     }
+//     if(c == '!') {
+//         if(!is_same(a1, a2)) {
+//             printf("True");
+//         }
+//         else {
+//             printf("False");
+//         }
+//     }
+//     n3 = larger(a1, a2);
+//     if(c == '>') {
+//         if(a1==n3) {
+//             printf("True");
+//         }
+//         else {
+//             printf("False");
+//         }
+//     }
+//     else if(c == '<') {
+//         if(n3 == a2) {
+//             printf("True");
+//         }
+//         else {
+//             printf("False");
+//         }
+//     }
+//     return;
+// }
+
+int is_trigo(char *p) {
+    char *s = p;
+    int r;
+    int i = 0;
+    if(s[i] == 's' && s[i+1] == 'i' && s[i+2] == 'n' && s[i+3] == '(' && isdigit(s[i+4])) {
+        r = 1;
+        return r;
+    }
+    else if(s[i] == 'c' && s[i+1] == 'o' && s[i+2] == 's' && s[i+3] == '(' && isdigit(s[i+4])) {
+        r = 2;
+        return r;
+    }
+    else if(s[i] == 't' && s[i+1] == 'a' && s[i+2] == 'n' && s[i+3] == '(' && isdigit(s[i+4])) {
+        r = 3;
+        return r;
+    }
+    else if(s[i] == 'l' && s[i+1] == 'o' && s[i+2] == 'g' && s[i+3] == '(' && isdigit(s[i+4])) {
+        r = 4;
+        return r;
+    }
+    else if(s[i] == 'e' && s[i+1] == 'x' && s[i+2] == 'p' && s[i+3] == 'o' && s[i+4] == '(' && isdigit(s[i+5])) {
+        r = 5;
+        return r;
+    }
+    else if(s[i] == 'p' && s[i+1] == 'o' && s[i+2] == 'w' && s[i+4] == '(' && isdigit(s[i+5]))
+    else {
+        return 0;
+    }
+}
+
+double sin_t(pstack *p) {
+    list n = NULL, new = NULL;
+    n = pop_op(p);
+    int count = 0;
+    list a = n, c = n;
+    //print(n);
+    while(a -> dig == 0) {
+        if(a->next == NULL) 
+            break;
+        a = a->next;
+        a -> prev = NULL;
+    }
+    //print(a);
+    //chaking the number is greater than 360 or not
+    init(&new);
+    insert_beg(&new,0);
+    insert_beg(&new, 6);
+    insert_beg(&new, 3);
+
+    while(is_same(a,larger(a,new))) {
+        //print(a);printf("\t");
+        a = sub(new, a);
+    }
+    c = a;
+    //print(a);printf("\n");
+    while(c -> next != NULL) {
+        count++;
+        c = c->next;
+    }
+    float b = 0; int i = 0;
+
+    while(c) {
+        //printf("%d\t", c->dig);
+        b = b + (c->dig) * pow(10,i);
+        //printf("%d\n", b);
+        i++;
+        c = c -> prev; 
+    }
+
+    int t = b;float r, sum;
+    b = b * 3.14159 / 180;
+    r = b;
+    sum = b;
+     
+    for(i = 1; i <= 100; i++)
+    {
+        r = (r*(-1)*b*b) / (2*i*(2*i+1));
+        sum = sum + r;
+    }
+
+
+    //printf("%d\n", b);
+    // float t = b * 3.142/180;
+    //return sin(t);
+    return sum;
+
+}
+
+double cos_t(pstack *p) {
+    list n = NULL, new = NULL;
+    n = pop_op(p);
+    int count = 0;
+    list a = n, c = n;
+    //print(n);
+    while(a -> dig == 0) {
+        if(a->next == NULL) 
+            break;
+        a = a->next;
+        a -> prev = NULL;
+    }
+    //print(a);
+    //chaking the number is greater than 360 or not
+    init(&new);
+    insert_beg(&new,0);
+    insert_beg(&new, 6);
+    insert_beg(&new, 3);
+
+    while(is_same(a,larger(a,new))) {
+        //print(a);printf("\t");
+        a = sub(new, a);
+    }
+    c = a;
+    //print(a);printf("\n");
+    while(c -> next != NULL) {
+        count++;
+        c = c->next;
+    }
+    float b = 0;int i = 0;
+
+    while(c) {
+        //printf("%d\t", c->dig);
+        b = b + (c->dig) * pow(10,i);
+        //printf("%d\n", b);
+        i++;
+        c = c -> prev; 
+    }
+
+    // int t = b;float r, sum;
+    // b = b * 3.14159 / 180;
+    // r = 1;
+    // sum = b;
+    // //printF("%lf", b);
+    // for(i = 1; i <= 100; i++)
+    // {
+    //     r = (r*(-1)*b*b) / (2*i*(2*i-1));
+    //     sum = sum + r;
+    // }
+
+
+    // printf("%d\n", b);
+    float t = b * 3.141592653589793238/180;
+    return cos(t);
+    //return sum;
+
+}
+
+
+double tan_t(pstack *p) {
+    list n = NULL, new = NULL;
+    n = pop_op(p);
+    int count = 0;
+    list a = n, c = n;
+    //print(n);
+    while(a -> dig == 0) {
+        if(a->next == NULL) 
+            break;
+        a = a->next;
+        a -> prev = NULL;
+    }
+    //print(a);
+    //chaking the number is greater than 360 or not
+    init(&new);
+    insert_beg(&new,0);
+    insert_beg(&new, 6);
+    insert_beg(&new, 3);
+
+    while(is_same(a,larger(a,new))) {
+        //print(a);printf("\t");
+        a = sub(new, a);
+    }
+    c = a;
+    //print(a);printf("\n");
+    while(c -> next != NULL) {
+        count++;
+        c = c->next;
+    }
+    int b = 0, i = 0;
+
+    while(c) {
+        //printf("%d\t", c->dig);
+        b = b + (c->dig) * pow(10,i);
+        //printf("%d\n", b);
+        i++;
+        c = c -> prev; 
+    }
+    float x=0;
+    if(b == 90) {
+        printf("value is out of range");
+        return x; 
+    }
+    //printf("%d\n", b);
+    float t = b * 3.141592653589793238/180;
+    return tan(t);
+
+}
+
+double expo(pstack *p) {
+    list n = NULL, new = NULL;
+    n = pop_op(p);
+    int count = 0;
+    list a = n, c = n;
+    //print(n);
+    while(a -> dig == 0) {
+        if(a->next == NULL) 
+            break;
+        a = a->next;
+        a -> prev = NULL;
+    }
+
+    while(c -> next != NULL) {
+        count++;
+        c = c->next;
+    }
+    long long int b = 0;int i = 0;
+
+    while(c) {
+        b = b + (c->dig) * pow(10,i);
+        i++;
+        c = c -> prev; 
+    }   
+
+
+}
+
+node* mod(list n1, list n2) {
+    list a1 = n1, a2 = n2, n3 = NULL, temp = NULL, q = NULL;
+    int count=0, d=0;
+    init(&temp);
+    while(a1 -> dig ==0) {
+        if(a1 -> next == NULL)
+            break;
+        q = a1;
+        a1 = a1 -> next;     
+        a1 ->prev = NULL;
+    }
+
+    while(a2 -> dig ==0) {
+        if(a2 -> next == NULL)
+            break;
+        q = a2;
+        a2 = a2 -> next;
+        a2 ->prev = NULL;
+    }
+
+    if(a2 -> dig == 0 && a2 -> next == NULL) {
+        printf("Invalid input... please enter the valid input combination");
+        return n3;
+    }
+
+    if(is_same(a1,a2)) {
+        insert_dig(&n3, 0);
+        return n3;
+    }
+    if(is_same(a2,larger(a1,a2))) {
+        //insert_dig(&n3, 0);
+        
+        return a1;
+    }
+
+    if(is_same(a1,a2)) {
+        insert_dig(&n3, 0);
+        return n3;
+    }
+    while(a1) {
+        insert_dig(&temp, a1 ->dig);
+        a1 = a1 -> next;
+    }
+    while(is_same(temp,larger(temp,a2))) {
+        //print(larger(temp,a2));printf("\t");
+        temp = sub(a2, temp);
+        count++;
+        // print(temp);
+        // printf("\t");
+        // printf("%d\n", count);
+    }
+    //print(larger(temp,a2));printf("\t");
+    if(is_same(temp,a2)) {
+        insert_beg(&n3, 0);
+        return n3;
+    }
+
+    list temp2=NULL;
+    while(temp->dig == 0) {
+        if(temp->next == NULL) {
+            break;
+        }
+        temp2 = temp;
+        temp = temp -> next;
+        temp-> prev = NULL;
+        temp2 -> next = NULL;
+        free(temp2);
+    }
+    
+    return temp;  
+}
+
+
+
+void distroy_stack(pstack *p) {
+    pstack *s = p;
+    list n =NULL;
+    while((s->top) != -1) {
+        n = pop_op(p);
+        distory_list(&n);
+    }
+    s->top = s->size - 1;
+    while(s->top != -1) {
+        s->arr[s->top] = NULL;
+        s->top--;
+    }
+    free(s->arr);
+    return;
+}
+
+void distory_list(list *n) {
+    list l = (*n), m = NULL;
+    //print(l);
+    while(l -> next != NULL) {
+        m = l;
+        l = l->next;
+        l -> prev = NULL;
+        m -> next = NULL;
+        free(m);
+    }
+    l ->next = NULL;
+    l ->prev = NULL;
+    free(l);
+    return;
+}
+
+
+void distroy_stack_o(ostack *p) {
+    free(p->a);
+    return;
+}
+
+
+
+node* power(list n2, list n1) {
+    list a1 = n1, a2 = n2, n3 = NULL, new = NULL, new1= NULL;
+    new = (node*)malloc(sizeof(node));
+    if(new) {
+        new -> dig = 0;
+        new -> next = NULL;
+        new -> prev = NULL;
+    }
+    else return n3;
+    new1 = (node*)malloc(sizeof(node));
+    if(new1) {
+        new1 -> dig = 1;
+        new1 -> next = NULL;
+        new1 -> prev = NULL;       
+    }
+    
+    n3 = (node*)malloc(sizeof(node));
+    if(n3) {
+        n3 -> dig = 1;
+        n3 -> next = NULL;
+        n3 -> prev = NULL;
+    }
+
+    while(!is_same(new, n2)) {
+        n3 = multi(n3, n1);
+        n2 = sub(new1, n2);
+    }
+
+    return n3;
 }

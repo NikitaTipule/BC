@@ -5,7 +5,7 @@
 
 //operations on oparator stack
 void init_os(ostack *s, int len){
-    s->a = (char*)malloc(sizeof(char)*len);
+    s->a = (char*)malloc(sizeof(char)*len);  
     s->size = len;
     s->top = -1;
 }
@@ -59,6 +59,11 @@ void init_ps(pstack *s, int len){
     s -> size = len;
     s -> top = -1;
     s -> arr = (node**)malloc(sizeof(node *) * len);
+    s->top = len -1;
+    while(s->top != -1) {
+            s->arr[s->top] == NULL;
+            s->top--;
+    }
     return;
 }
 
