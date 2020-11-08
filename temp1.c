@@ -10,19 +10,25 @@ int main() {
     ostack os;
     init_os(&os, 10);
     init_ps(&ps, 10);
-    int i = 0, n = 0, m=0, invalid = 0;
+    int i = 0, n = 0, m=0, invalid = 0, obrac = 0, cbrac = 0;
     char c;
-    list n1, n2, n3, result;
+    list n1, n2, n3, result, zero;
+    zero = (node*)malloc(sizeof(node));
+    if (zero) {
+        zero -> dig = 0;
+        zero -> next = NULL;
+        zero -> prev = NULL;
+    }
 
 
 
     while(1) {
         FILE *fp;
-        fp = fopen("E:/DSA-1/BC/BC-calculator/history.txt", "a+");
+        fp = fopen("history.txt", "a+");
         printf(">>>");
         n1 = n2 = n3 = result = NULL;
         init(&result);
-        i = 0; n = 0 ; invalid = 0;
+        i = 0; n = 0 ; invalid = 0; obrac = 0; cbrac = 0;
         init_os(&os, 10);
         init_ps(&ps, 2);
         gets(str);
@@ -81,8 +87,6 @@ int main() {
                         fclose(fp);
                         continue;
                         break;
-                // case 5: result = expo(&ps);
-                //         push_op(&ps, result);
 
                 default: break;
             }
@@ -90,8 +94,7 @@ int main() {
 
 
         else if(isdigit(str[i]) || str[i] == '(') {
-            //init_ps(&ps, 20);
-            //display_stack(&ps);
+
             if(str[i]=='#') {
                 printf("Invalid input .");
                 continue;
@@ -101,19 +104,20 @@ int main() {
                 while(str[i] != '\0') {
                     if(str[i] == '(') {
                         push_os(&os, '(');
+                        obrac++;
                         if(str[i+1] == ' ') {
                             i++;
                         }
                         else {
-                            printf("Invalid input babli\n");
+                            printf("Invalid input - b\n");
                             invalid = 1;
                             break;
                         }
-                        if(isdigit(str[i+1])){ 
+                        if(isdigit(str[i+1]) || str[i+1] == '('){ 
                             i++;
                         }
                         else {
-                            printf("Invalid Input ara\n");
+                            printf("Invalid Input- a\n");
                             invalid = 1;
                             break;
                         }
@@ -130,24 +134,22 @@ int main() {
                         if(str[i] == ' ')
                             i++;
                         if(str[i] == '(') {
-                            printf("Invalid input\n");
+                            printf("Invalid input - n\n");
                             invalid = 1;
                             break;
                         }
                     }
                     else if(str[i] == '+' || str[i] == '-' || str[i] == '/' || str[i] == '*' || str[i] == '^' || str[i] == '%') {
-                        if(str[i+1] == ' ' && isdigit(str[i+2])){
+                        if(str[i+1] == ' ' && (isdigit(str[i+2]) || str[i+2] == '(')){
                             c = pop_os(&os);
                             if(precedence(str[i]) > precedence(c)) {
                                 push_os(&os, c);
                                 push_os(&os, str[i]);
-                                //display_stack(&ps);
                                 i++;
                                 i++;
                             }
                             else {
                                 while(precedence(str[i]) <= precedence(c)) {
-                                    //display_stack(&ps);
                                     n2 = pop_op(&ps);
                                     n1 = pop_op(&ps);
                                     switch(c) {
@@ -163,11 +165,19 @@ int main() {
                                                 push_op(&ps, result);
                                                 fputs("multi()\n", fp);
                                                 break;
-                                        case '/' : result = division(n2, n1);
+                                        case '/' : if(is_same(n2, zero)) {
+                                                    printf("Invalid input : zero division errror occured");
+                                                    break;
+                                                }
+                                                result = division(n2, n1);
                                                 fputs("div()\n", fp);
                                                 push_op(&ps, result);
                                                 break;
-                                        case '%' : result = mod(n1, n2);
+                                        case '%' : if(is_same(n2, zero)) {
+                                                    printf("Invalid input : zero division errror occured");
+                                                    break;
+                                                }
+                                                result = mod(n1, n2);
                                                 fputs("mod()\n", fp);
                                                 push_op(&ps, result);
                                                 break;
@@ -187,13 +197,14 @@ int main() {
                             }
                         }
                         else {
-                            printf("Invalid input\n");
+                            printf("Invalid input - m\n");
                             invalid = 1;
                             break;
                         }
                     }
                     else if(str[i] == ')') {
-                        if((str[i+1] == ' ' && (str[i + 2] == '+' || str[i+2] == '-' || str[i+2] == '/' || str[i+2] == '*' || str[i+2] == '^' || str[i+2] == '%') || str[i+1] == '\0')){
+                        cbrac++;
+                        if(str[i+1] == '\0' || (str[i+1] == ' ' && (str[i+2] == ')' || str[i + 2] == '+' || str[i+2] == '-' || str[i+2] == '/' || str[i+2] == '*' || str[i+2] == '^' || str[i+2] == '%'))){
                             c = pop_os(&os);
                             while(c != '(' && c != '#') {
                                 n2 = pop_op(&ps);
@@ -211,11 +222,19 @@ int main() {
                                                 push_op(&ps, result);
                                                 fputs("multi()\n", fp);
                                                 break;
-                                    case '/' : result = division(n2, n1);
+                                    case '/' :  if(is_same(n2, zero)) {
+                                                    printf("Invalid input : zero division errror occured");
+                                                    break;
+                                                }
+                                                result = division(n2, n1);
                                                 fputs("div()\n", fp);
                                                 push_op(&ps, result);
                                                 break;
-                                    case '%' : result = mod(n1, n2);
+                                    case '%' :  if(is_same(n2, zero)) {
+                                                    printf("Invalid input : zero division errror occured");
+                                                    break;
+                                                }
+                                                result = mod(n1, n2);
                                                 fputs("mod()\n", fp);
                                                 push_op(&ps, result);
                                                 break;
@@ -236,14 +255,16 @@ int main() {
                             i++;
                         }
                         else {
-                            printf("Invalid input nik\n");
+                            printf("Invalid input - o\n");
                             invalid = 1;
                             break;
                         }
                     }
 
                 }
-
+                if(invalid == 1) {
+                    continue;
+                }
                 c = pop_os(&os);
                 while(c != '#'){
 
@@ -263,11 +284,19 @@ int main() {
                                     push_op(&ps, result);
                                     fputs("multi()\n", fp);
                                     break;
-                        case '/' :  result = division(n2, n1);
+                        case '/' :  if(is_same(n2, zero)) {
+                                        printf("Invalid input : zero division errror occured");
+                                        break;
+                                    }
+                                    result = division(n2, n1);
                                     push_op(&ps, result);
                                     fputs("div()\n", fp);
                                     break;
-                        case '%' :  result = mod(n1, n2);
+                        case '%' :  if(is_same(n2, zero)) {
+                                        printf("Invalid input : zero division errror occured");
+                                        break;
+                                    }
+                                    result = mod(n1, n2);
                                     push_op(&ps, result);
                                     fputs("mod()\n", fp);
                                     break;
@@ -281,6 +310,10 @@ int main() {
                 }
 
             }
+        }
+        if(obrac != cbrac) {
+            printf("Error : brackets didn't match\n");
+            invalid = 1;
         }
         if(invalid != 1) {
             display_stack(&ps);

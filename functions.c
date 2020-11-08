@@ -397,37 +397,6 @@ node* multi(list n2, list n1) {
 }
 
 
-// node* multii(list n2, list n1) {
-//     list a1 = n1, a2 = n2, new = NULL, mult = NULL, subt = NULL;
-//     new = (node*)malloc(sizeof(node));
-//     if(new) {
-//         new -> dig = 1;
-//         new ->next = NULL;
-//         new -> prev = NULL;
-//     }
-//     mult = (node*)malloc(sizeof(node));
-//     if(mult) {
-//         mult ->dig = 0;
-//         mult -> prev = NULL;
-//         mult -> next = NULL;
-//     }
-//     // while(a2 != NULL){
-//     //     if(a2 -> next == NULL && a2 ->dig == 0) {
-//     //         return mult;
-//     //     }
-//     //     a2 = sub(new,a2);
-//     //     print(a2);
-//     //     printf("\t");
-//     // }
-//     // print(sub(new,a2));
-//     a2 = add(a2,new);
-//     while(a2 != NULL) {
-//         mult = add(mult, a1);
-//         a2 = sub(new,a2);
-//         print(a2);
-//     }
-//     return mult;
-// }
 
 
 void distroy(list *n1) {
@@ -532,62 +501,6 @@ node* division(list n2 , list n1) {
 
 
 
-// node* multi(list n2, list n1) {
-//     list a1 = n1, a2 = n2, n3 = NULL, mult = NULL, q = NULL, temp, temp1;
-//     init(&n3);
-//     init(&mult);
-//     init(&temp1);init(&temp);
-//     mult = (node*)malloc(sizeof(node));
-//     if(mult) {
-//         mult ->dig = 0;
-//         mult -> next = NULL;
-//         mult -> prev = NULL;
-//     }
-
-//     while(a2 -> next != NULL) {
-//         a2 = a2 -> next;
-//     }
-//     while(a1 -> next != NULL) {
-//         a1 = a1 -> next;
-//     }
-//     temp = a1, temp1= NULL;
-//     int c = 0, d = 0, t = 0;
-//     while(a2) {
-//         a1 = temp;
-//         c = 0;
-//         init(&n3);
-//         while(a1) {
-//             d = (a1->dig) * (a2->dig) + c;
-//             insert_beg(&n3, d%10);
-//             c = d / 10;
-//             a1 = a1 -> prev;
-//         }
-//         if(c > 0) {
-//             insert_beg(&n3, c);
-//         }
-//         int i = 0;
-//         while(i < t) {
-//             insert_dig(&n3, 0);
-//             i++;
-//         }
-//         mult = add(n3, mult);
-//         a2 = a2 -> prev;
-//         t++;
-//     }
-//     // distroy(&n3);
-//     // distroy(&a2);
-//     // distroy(&a1);
-//     temp1 = mult;
-//     while(temp1 -> dig ==0) {
-//         q = temp1;
-//         temp1 = temp1 -> next;
-//         temp1 -> prev = NULL;
-//         free(q);
-//     }
-//     return mult;
-
-// }
-
 
 
 void display_stack(pstack *p) {
@@ -604,92 +517,7 @@ void display_stack(pstack *p) {
 }
 
 
-// int is_comparison(char *p) {
-//     int i = 0;
-//     while(p[i] != '\0') {
-//         do{ 
-//             n = p[i] - '0';
-//             insert_dig(&n1, n);
-//             i++;
-//         }while(isdigit(p[i]));
-//         push_op(&ps, n1);
-//         i++;
-//         if(p[i] == '<' || (p[i] == '>') || (p[i] == '=' && p[i+1] == '=') || (p[i] == '!' && p[i+1] == '=' )) {
-//             c = str[i];
-//             i++;
-//             i++;
-//         }
-//         if(isdigit(str[i])) {
-//             do{ 
-//                 n = str[i] - '0';
-//                 insert_dig(&n1, n);
-//                 i++;
-//             }while(isdigit(str[i]));
-//             push_op(&ps, n1);  
-//         }
-//         if(str[i] == '\0'){
-//             is_comparison(&ps, c);
-//         }
 
-//     }
-// }
-
-
-// void is_comparison(pstack *p, char c) {
-//     list a1, a2, n3, q;
-//     a2 = pop_op(p);
-//     a1 = pop_op(p);
-
-//     while(a1 -> dig ==0) {
-//         if(a1 -> next == NULL)
-//             break;
-//         q = a1;
-//         a1 = a1 -> next;     
-//         a1 ->prev = NULL;
-//     }
-
-//     while(a2 -> dig ==0) {
-//         if(a2 -> next == NULL)
-//             break;
-//         q = a2;
-//         a2 = a2 -> next;
-//         a2 ->prev = NULL;
-//     }
-//     if(c == '=') {
-//         if(is_same(a1,a2)) {
-//             printf("True");
-//         }
-//         else {
-//             printf("False");
-//         }
-//     }
-//     if(c == '!') {
-//         if(!is_same(a1, a2)) {
-//             printf("True");
-//         }
-//         else {
-//             printf("False");
-//         }
-//     }
-//     n3 = larger(a1, a2);
-//     if(c == '>') {
-//         if(a1==n3) {
-//             printf("True");
-//         }
-//         else {
-//             printf("False");
-//         }
-//     }
-//     else if(c == '<') {
-//         if(n3 == a2) {
-//             printf("True");
-//         }
-//         else {
-//             printf("False");
-//         }
-//     }
-//     return;
-// }
 
 int is_trigo(char *p) {
     char *s = p;
@@ -744,11 +572,9 @@ double sin_t(pstack *p) {
     insert_beg(&new, 3);
 
     while(is_same(a,larger(a,new))) {
-        //print(a);printf("\t");
         a = sub(new, a);
     }
     c = a;
-    //print(a);printf("\n");
     while(c -> next != NULL) {
         count++;
         c = c->next;
@@ -756,9 +582,7 @@ double sin_t(pstack *p) {
     float b = 0; int i = 0;
 
     while(c) {
-        //printf("%d\t", c->dig);
         b = b + (c->dig) * pow(10,i);
-        //printf("%d\n", b);
         i++;
         c = c -> prev; 
     }
@@ -774,10 +598,6 @@ double sin_t(pstack *p) {
         sum = sum + r;
     }
 
-
-    //printf("%d\n", b);
-    // float t = b * 3.142/180;
-    //return sin(t);
     return sum;
 
 }
@@ -804,11 +624,9 @@ double cos_t(pstack *p) {
     insert_beg(&new, 3);
 
     while(is_same(a,larger(a,new))) {
-        //print(a);printf("\t");
         a = sub(new, a);
     }
     c = a;
-    //print(a);printf("\n");
     while(c -> next != NULL) {
         count++;
         c = c->next;
@@ -816,9 +634,7 @@ double cos_t(pstack *p) {
     float b = 0;int i = 0;
 
     while(c) {
-        //printf("%d\t", c->dig);
         b = b + (c->dig) * pow(10,i);
-        //printf("%d\n", b);
         i++;
         c = c -> prev; 
     }
@@ -826,7 +642,6 @@ double cos_t(pstack *p) {
 
     float t = b * 3.141592653589793238/180;
     return cos(t);
-    //return sum;
 
 }
 
@@ -838,14 +653,14 @@ double tan_t(pstack *p) {
     n = pop_op(p);
     int count = 0;
     list a = n, c = n;
-    //print(n);
+
     while(a -> dig == 0) {
         if(a->next == NULL) 
             break;
         a = a->next;
         a -> prev = NULL;
     }
-    //print(a);
+    
     //chaking the number is greater than 360 or not
     init(&new);
     insert_beg(&new,0);
@@ -853,11 +668,9 @@ double tan_t(pstack *p) {
     insert_beg(&new, 3);
 
     while(is_same(a,larger(a,new))) {
-        //print(a);printf("\t");
         a = sub(new, a);
     }
     c = a;
-    //print(a);printf("\n");
     while(c -> next != NULL) {
         count++;
         c = c->next;
@@ -865,9 +678,7 @@ double tan_t(pstack *p) {
     int b = 0, i = 0;
 
     while(c) {
-        //printf("%d\t", c->dig);
         b = b + (c->dig) * pow(10,i);
-        //printf("%d\n", b);
         i++;
         c = c -> prev; 
     }
@@ -876,7 +687,6 @@ double tan_t(pstack *p) {
         printf("value is out of range");
         return x; 
     }
-    //printf("%d\n", b);
     float t = b * 3.141592653589793238/180;
     return tan(t);
 
@@ -889,7 +699,6 @@ double expo(pstack *p) {
     n = pop_op(p);
     int count = 0;
     list a = n, c = n;
-    //print(n);
     while(a -> dig == 0) {
         if(a->next == NULL) 
             break;
@@ -957,14 +766,10 @@ node* mod(list n1, list n2) {
         a1 = a1 -> next;
     }
     while(is_same(temp,larger(temp,a2))) {
-        //print(larger(temp,a2));printf("\t");
         temp = sub(a2, temp);
         count++;
-        // print(temp);
-        // printf("\t");
-        // printf("%d\n", count);
+
     }
-    //print(larger(temp,a2));printf("\t");
     if(is_same(temp,a2)) {
         insert_beg(&n3, 0);
         return n3;
@@ -1066,7 +871,7 @@ double log_n(pstack *p) {
     n = pop_op(p);
 
     list a = n, c = n;
-    //print(n);
+ 
     while(a -> dig == 0) {
         if(a->next == NULL) 
             break;
@@ -1077,9 +882,7 @@ double log_n(pstack *p) {
     float b = 0;
 
     while(c) {
-        //printf("%d\t", c->dig);
         b = b + (c->dig) * pow(10,i);
-        //printf("%d\n", b);
         i++;
         c = c -> prev; 
     }
