@@ -64,6 +64,7 @@ int is_trigo(char *p);
 double sin_t(pstack *p);
 double cos_t(pstack *p);
 double tan_t(pstack *p);
+double log_n(pstack *p);
 void distroy_stack(pstack *p);
 void distory_list(list *n);
 void distroy_stack_o(ostack *p);

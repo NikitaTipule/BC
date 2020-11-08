@@ -106,7 +106,7 @@ node* pop_op(pstack *s) {
         s->top--;
     }
     else {
-        printf("Stack is empty");
+        printf("Stack is empty\n");
     }
     return e;
 }

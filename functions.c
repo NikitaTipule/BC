@@ -176,6 +176,8 @@ node* larger(list n1, list n2) {
 }
 
 node* sub(list n2, list n1) {
+
+
     list a1 = n1, a2 = n2, p1 = n1, p2 = n2, temp = NULL, n3 = NULL, temp2 = NULL;
     list temp1 = n3, q = NULL, x = NULL, y = NULL;
     init(&n3);
@@ -264,15 +266,15 @@ node* sub(list n2, list n1) {
         }
         temp1 = n3;
 
-        // while(temp1 -> dig == 0) {
-        //     if(temp1 -> next == NULL)
-        //         return temp1;
-        //     q = temp1;
-        //     temp1 = temp1 -> next;
-        //     q -> next = NULL;
-        //     temp1 -> prev = NULL;
-        //     free(q);
-        // }
+        while(temp1 -> dig == 0) {
+            if(temp1 -> next == NULL)
+                return temp1;
+            q = temp1;
+            temp1 = temp1 -> next;
+            q -> next = NULL;
+            temp1 -> prev = NULL;
+            free(q);
+        }
     }
     else {
         while(a1 && a2) {
@@ -317,6 +319,7 @@ node* sub(list n2, list n1) {
 
 
 node* multi(list n2, list n1) {
+
     list a1 = n1, a2 = n2, n3 = NULL, mult = NULL, q = NULL, temp, temp1;
     init(&n3);
     init(&mult);
@@ -462,6 +465,8 @@ int is_same(list n1, list n2) {
 
 
 node* division(list n2 , list n1) {
+
+
     list a1 = n1, a2 = n2, n3 = NULL, temp = NULL, q = NULL;
     int count=0, d=0;
     init(&temp);
@@ -473,7 +478,7 @@ node* division(list n2 , list n1) {
         a1 = a1 -> next;     
         a1 ->prev = NULL;
     }
-    //printf("nikita");
+   
     while(a2 -> dig ==0) {
         if(a2 -> next == NULL)
             break;
@@ -505,16 +510,14 @@ node* division(list n2 , list n1) {
         insert_dig(&temp, a1 ->dig);
         a1 = a1 -> next;
     }
-    //print(a1);
+  
     while(is_same(temp,larger(temp,a2))) {
-        //print(larger(temp,a2));printf("\t");
+        
         temp = sub(a2, temp);
         count++;
-    //    print(temp);
-    //     printf("\t");
-    //     printf("%d\n", count); 
+
     }
-    //print(larger(temp,a2));printf("\t");
+   
     if(is_same(temp,a2)) {
         count++;
     }
@@ -712,7 +715,10 @@ int is_trigo(char *p) {
         r = 5;
         return r;
     }
-    else if(s[i] == 'p' && s[i+1] == 'o' && s[i+2] == 'w' && s[i+4] == '(' && isdigit(s[i+5]))
+    else if(s[i] == 'p' && s[i+1] == 'o' && s[i+2] == 'w' && s[i+4] == '(' && isdigit(s[i+5])) {
+        r = 6;
+        return r;
+    }
     else {
         return 0;
     }
@@ -777,6 +783,8 @@ double sin_t(pstack *p) {
 }
 
 double cos_t(pstack *p) {
+
+
     list n = NULL, new = NULL;
     n = pop_op(p);
     int count = 0;
@@ -815,19 +823,7 @@ double cos_t(pstack *p) {
         c = c -> prev; 
     }
 
-    // int t = b;float r, sum;
-    // b = b * 3.14159 / 180;
-    // r = 1;
-    // sum = b;
-    // //printF("%lf", b);
-    // for(i = 1; i <= 100; i++)
-    // {
-    //     r = (r*(-1)*b*b) / (2*i*(2*i-1));
-    //     sum = sum + r;
-    // }
 
-
-    // printf("%d\n", b);
     float t = b * 3.141592653589793238/180;
     return cos(t);
     //return sum;
@@ -836,6 +832,8 @@ double cos_t(pstack *p) {
 
 
 double tan_t(pstack *p) {
+
+
     list n = NULL, new = NULL;
     n = pop_op(p);
     int count = 0;
@@ -885,6 +883,8 @@ double tan_t(pstack *p) {
 }
 
 double expo(pstack *p) {
+
+
     list n = NULL, new = NULL;
     n = pop_op(p);
     int count = 0;
@@ -913,6 +913,7 @@ double expo(pstack *p) {
 }
 
 node* mod(list n1, list n2) {
+
     list a1 = n1, a2 = n2, n3 = NULL, temp = NULL, q = NULL;
     int count=0, d=0;
     init(&temp);
@@ -1027,6 +1028,7 @@ void distroy_stack_o(ostack *p) {
 
 
 node* power(list n2, list n1) {
+
     list a1 = n1, a2 = n2, n3 = NULL, new = NULL, new1= NULL;
     new = (node*)malloc(sizeof(node));
     if(new) {
@@ -1056,3 +1058,34 @@ node* power(list n2, list n1) {
 
     return n3;
 }
+
+
+double log_n(pstack *p) {
+
+    list n = NULL, new = NULL;
+    n = pop_op(p);
+
+    list a = n, c = n;
+    //print(n);
+    while(a -> dig == 0) {
+        if(a->next == NULL) 
+            break;
+        a = a->next;
+        a -> prev = NULL;
+    }
+    int i = 0;
+    float b = 0;
+
+    while(c) {
+        //printf("%d\t", c->dig);
+        b = b + (c->dig) * pow(10,i);
+        //printf("%d\n", b);
+        i++;
+        c = c -> prev; 
+    }
+
+    return log(b);
+
+
+}
+
